@@ -1,16 +1,81 @@
 # flutter_application_4
 
-A new Flutter project.
+### Understanding about SharedPreference
 
-## Getting Started
+```
+import 'package:flutter/material.dart';
+import 'package:flutter_application_4/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-This project is a starting point for a Flutter application.
+void main() {
+  runApp(const LoginScreen());
+}
 
-A few resources to get you started if this is your first Flutter project:
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+class _LoginScreenState extends State<LoginScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login Screen'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.blue,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: emailController,
+              decoration: InputDecoration(hintText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              controller: passwordController,
+              decoration: InputDecoration(hintText: 'Password'),
+              keyboardType: TextInputType.visiblePassword,
+            ),
+            SizedBox(height: 20),
+            InkWell(
+              onTap: () async {
+                SharedPreferences sp = await SharedPreferences.getInstance();
+                sp.setString('email', emailController.text.toString());
+                sp.setString('password', passwordController.text.toString());
+                sp.setBool('islogin', true);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
+              },
+              child: Container(
+                height: 50,
+                width: double.infinity,
+                color: Colors.blue,
+                child: Center(child: Text('Login')),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> anshu() async {
+    await Future.delayed(Duration(seconds: 10));
+  }
+}
+```
+

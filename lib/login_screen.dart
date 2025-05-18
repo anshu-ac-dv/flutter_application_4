@@ -23,8 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             InkWell(
               onTap: () {
-                print('Tap');
-
+                anshu();
               },
               child: Container(
                 height: 50,
@@ -39,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
-
+  Future<void> anshu() async {
+    await Future.delayed(Duration(seconds: 10));
+  }
 }
